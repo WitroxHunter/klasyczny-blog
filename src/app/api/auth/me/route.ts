@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const token = cookies().get("token")?.value;
+  const token = (await cookies()).get("token")?.value;
 
   if (!token) {
     return NextResponse.json({ user: null }, { status: 401 });
