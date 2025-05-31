@@ -6,11 +6,12 @@ export function signToken(payload: object) {
   return jwt.sign(payload, SECRET, { expiresIn: "7d" });
 }
 
-export function verifyToken(token: string) {
+type DecodedToken = { id: string } | null;
+
+export function verifyToken(token: string): DecodedToken {
   try {
-    return jwt.verify(token, SECRET);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (error) {
+    return jwt.verify(token, SECRET) as DecodedToken;
+  } catch {
     return null;
   }
 }

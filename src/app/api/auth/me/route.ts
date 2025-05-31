@@ -9,9 +9,13 @@ export async function GET() {
   if (!token) {
     return NextResponse.json({ user: null }, { status: 401 });
   }
-
   try {
-    const decoded = verifyToken(token); // np. zawiera user.id
+    const decoded = verifyToken(token);
+
+    if (!decoded) {
+      return NextResponse.json({ user: null }, { status: 401 });
+    }
+
     const user = await prisma.user.findUnique({
       where: { id: decoded.id },
       select: { id: true, email: true },
@@ -22,7 +26,6 @@ export async function GET() {
     }
 
     return NextResponse.json({ user });
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err) {
     return NextResponse.json({ user: null }, { status: 401 });
   }
