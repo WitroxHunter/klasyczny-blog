@@ -26,6 +26,7 @@ export async function GET() {
     }
 
     return NextResponse.json({ user });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err) {
     return NextResponse.json({ user: null }, { status: 401 });
   }
