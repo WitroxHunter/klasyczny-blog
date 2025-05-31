@@ -22,6 +22,7 @@ export default function Header() {
         } else {
           setIsLoggedIn(false);
         }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error) {
         setIsLoggedIn(false);
       }

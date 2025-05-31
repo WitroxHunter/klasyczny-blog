@@ -9,6 +9,7 @@ export function signToken(payload: object) {
 export function verifyToken(token: string) {
   try {
     return jwt.verify(token, SECRET);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     return null;
   }
