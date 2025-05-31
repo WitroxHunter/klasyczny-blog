@@ -38,7 +38,7 @@ export default function Modal({ onClose }: { onClose: () => void }) {
 
   const modalRef = useRef<HTMLDivElement>(null);
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: FormData) => {
     if (!authorId) {
       alert("Nie udało się pobrać ID użytkownika.");
       return;

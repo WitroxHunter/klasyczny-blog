@@ -3,13 +3,19 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 
+type LoginFormData = {
+  email: string;
+  password: string;
+};
+
 export default function App() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm();
-  const onSubmit = async (data: any) => {
+    //formState: { errors },
+  } = useForm<LoginFormData>();
+
+  const onSubmit = async (data: LoginFormData) => {
     console.log(data);
     const res = await fetch("/api/auth/login", {
       method: "POST",
@@ -25,7 +31,6 @@ export default function App() {
     const result = await res.json();
     console.log(result);
   };
-
   return (
     <div className="min-h-screen flex items-center justify-center text-white flex-col gap-4">
       <h1 className="text-4xl">Zaloguj sie</h1>

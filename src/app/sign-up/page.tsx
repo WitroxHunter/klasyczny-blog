@@ -4,13 +4,19 @@ import React from "react";
 import { useForm } from "react-hook-form";
 
 export default function App() {
+  type SignupFormData = {
+    name: string;
+    email: string;
+    password: string;
+  };
+
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm();
+    //formState: { errors },
+  } = useForm<SignupFormData>();
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: SignupFormData) => {
     console.log(data);
     try {
       const res = await fetch("/api/users", {
