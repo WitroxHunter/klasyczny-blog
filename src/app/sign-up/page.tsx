@@ -13,7 +13,7 @@ export default function App() {
   const {
     register,
     handleSubmit,
-    //formState: { errors },
+    formState: { errors },
   } = useForm<SignupFormData>();
 
   const onSubmit = async (data: SignupFormData) => {
@@ -54,6 +54,9 @@ export default function App() {
             {...register("name", { required: true, maxLength: 80 })}
             className="w-full px-4 py-2 rounded bg-gray-700 text-white"
           />
+          {errors.name && (
+            <p className="text-red-400 text-sm mt-1">{errors.name.message}</p>
+          )}
         </div>
 
         <div>
@@ -63,6 +66,9 @@ export default function App() {
             {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
             className="w-full px-4 py-2 rounded bg-gray-700 text-white"
           />
+          {errors.email && (
+            <p className="text-red-400 text-sm mt-1">{errors.email.message}</p>
+          )}
         </div>
 
         <div>
@@ -72,6 +78,11 @@ export default function App() {
             {...register("password", { required: true, minLength: 6 })}
             className="w-full px-4 py-2 rounded bg-gray-700 text-white"
           />
+          {errors.password && (
+            <p className="text-red-400 text-sm mt-1">
+              {errors.password.message}
+            </p>
+          )}
         </div>
 
         <input

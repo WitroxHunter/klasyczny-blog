@@ -2,6 +2,8 @@
 
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 type LoginFormData = {
   email: string;
@@ -9,10 +11,12 @@ type LoginFormData = {
 };
 
 export default function App() {
+  const router = useRouter();
+  const [komunikat, setKomunikat] = useState("");
   const {
     register,
     handleSubmit,
-    //formState: { errors },
+    formState: { errors },
   } = useForm<LoginFormData>();
 
   const onSubmit = async (data: LoginFormData) => {
@@ -30,6 +34,12 @@ export default function App() {
 
     const result = await res.json();
     console.log(result);
+    if (result.error) {
+      setKomunikat(result.error);
+    } else {
+      window.location.href = "/";
+    }
+    console.log("Logowanie");
   };
   return (
     <div className="min-h-screen flex items-center justify-center text-white flex-col gap-4">
@@ -39,21 +49,36 @@ export default function App() {
         className="flex flex-col gap-4 bg-gray-800 p-8 rounded-lg w-full max-w-md shadow-lg"
       >
         <div>
+          {komunikat}
           <label className="block mb-1">Email</label>
           <input
             type="text"
-            {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
+            {...register("email", {
+              required: "Pole wymagane",
+              pattern: /^\S+@\S+$/i,
+            })}
             className="w-full px-4 py-2 rounded bg-gray-700 text-white"
           />
+          {errors.email && (
+            <p className="text-red-400 text-sm mt-1">{errors.email.message}</p>
+          )}
         </div>
 
         <div>
           <label className="block mb-1">Hasło</label>
           <input
             type="password"
-            {...register("password", { required: true, minLength: 6 })}
+            {...register("password", {
+              required: "Pole wymagane",
+              minLength: 6,
+            })}
             className="w-full px-4 py-2 rounded bg-gray-700 text-white"
           />
+          {errors.password && (
+            <p className="text-red-400 text-sm mt-1">
+              {errors.password.message}
+            </p>
+          )}
         </div>
 
         <input
