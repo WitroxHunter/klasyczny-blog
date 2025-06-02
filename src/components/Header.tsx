@@ -48,11 +48,11 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed w-full py-3 text-white transition-all duration-200 z-50 border-b-gray-500 border-solid border-b-2`}
+      className={`fixed bg-black w-full py-3 text-white transition-all duration-200 z-50 border-b-gray-500 border-solid border-b-2`}
     >
       <nav className="container mx-auto flex justify-between items-center">
         <Link href="/" passHref>
-          Klasyczny blog.
+          Klasyczny blog™
         </Link>
         <ul className="flex space-x-4">
           {!isLoggedIn ? (
