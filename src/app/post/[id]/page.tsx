@@ -1,9 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 
-export default async function Page({ params }: { params: { id: string } }) {
+export default async function Page({ s }: { s: { id: string } }) {
   const post = await prisma.post.findUnique({
-    where: { id: params.id },
+    where: { id: s.id },
     select: {
       title: true,
       content: true,
