@@ -11,7 +11,6 @@ type LoginFormData = {
 };
 
 export default function App() {
-  const router = useRouter();
   const [komunikat, setKomunikat] = useState("");
   const {
     register,
@@ -34,8 +33,9 @@ export default function App() {
 
     const result = await res.json();
     console.log(result);
-    if (result.error) {
+    if (!res.ok) {
       setKomunikat(result.error);
+      return;
     } else {
       window.location.href = "/";
     }

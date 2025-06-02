@@ -3,9 +3,11 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Spinner from "./Spinner";
 
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isloading, setisLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
@@ -16,15 +18,19 @@ export default function Header() {
           const data = await res.json();
           if (data.user) {
             setIsLoggedIn(true);
+            setisLoading(false);
           } else {
             setIsLoggedIn(false);
+            setisLoading(false);
           }
         } else {
           setIsLoggedIn(false);
+          setisLoading(false);
         }
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error) {
         setIsLoggedIn(false);
+        setisLoading(false);
       }
     };
 
@@ -51,20 +57,28 @@ export default function Header() {
         <ul className="flex space-x-4">
           {!isLoggedIn ? (
             <>
-              <li>
-                <a href="/sign-up" className="hover:underline">
-                  Sign up
-                </a>
-              </li>
-              <li>
-                <Link
-                  className="w-auto relative bg-gradient-to-r from-[#D466FF] to-[#9905FC] hover:bg-[#a94acf] text-white rounded-lg transition-colors flex items-center justify-center text-base px-3 py-1 -top-1"
-                  href="/login"
-                  passHref
-                >
-                  Login
-                </Link>
-              </li>
+              {!isloading ? (
+                <>
+                  <li>
+                    <a href="/sign-up" className="hover:underline">
+                      Sign up
+                    </a>
+                  </li>
+                  <li>
+                    <Link
+                      className="w-auto relative bg-gradient-to-r from-[#D466FF] to-[#9905FC] hover:bg-[#a94acf] text-white rounded-lg transition-colors flex items-center justify-center text-base px-3 py-1 -top-1"
+                      href="/login"
+                      passHref
+                    >
+                      Login
+                    </Link>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <Spinner />
+                </>
+              )}
             </>
           ) : (
             <li>

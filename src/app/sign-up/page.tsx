@@ -2,8 +2,24 @@
 
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 
 export default function App() {
+  const [komunikat, setKomunikat] = useState("");
+
+  const validatePassword = (value: string) => {
+    if (value.length < 6) {
+      return "Hasło musi mieć co najmniej 6 znaków";
+    }
+    if (!/[A-Z]/.test(value)) {
+      return "Hasło musi zawierać przynajmniej jedną dużą literę";
+    }
+    if (!/\d/.test(value)) {
+      return "Hasło musi zawierać przynajmniej jedną cyfrę";
+    }
+    return true;
+  };
+
   type SignupFormData = {
     name: string;
     email: string;
@@ -28,8 +44,9 @@ export default function App() {
       });
 
       if (!res.ok) {
-        const text = await res.text();
-        console.error("Błąd:", text);
+        const result = await res.json();
+        setKomunikat(result.error);
+        console.error("Błąd:", result);
         return;
       }
 
@@ -47,11 +64,12 @@ export default function App() {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-4 bg-gray-800 p-8 rounded-lg w-full max-w-md shadow-lg"
       >
+        {komunikat}
         <div>
           <label className="block mb-1">Nick</label>
           <input
             type="text"
-            {...register("name", { required: true, maxLength: 80 })}
+            {...register("name", { required: "Pole wymagane", maxLength: 20 })}
             className="w-full px-4 py-2 rounded bg-gray-700 text-white"
           />
           {errors.name && (
@@ -63,7 +81,10 @@ export default function App() {
           <label className="block mb-1">Email</label>
           <input
             type="text"
-            {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
+            {...register("email", {
+              required: "Pole wymagane",
+              pattern: /^\S+@\S+$/i,
+            })}
             className="w-full px-4 py-2 rounded bg-gray-700 text-white"
           />
           {errors.email && (
@@ -75,7 +96,10 @@ export default function App() {
           <label className="block mb-1">Hasło</label>
           <input
             type="password"
-            {...register("password", { required: true, minLength: 6 })}
+            {...register("password", {
+              required: "Pole wymagane",
+              validate: validatePassword,
+            })}
             className="w-full px-4 py-2 rounded bg-gray-700 text-white"
           />
           {errors.password && (
