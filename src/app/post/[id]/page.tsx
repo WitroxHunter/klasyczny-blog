@@ -1,11 +1,9 @@
 import { prisma } from "@/lib/prisma";
-import React from "react";
+import { notFound } from "next/navigation";
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const { id } = params;
-
   const post = await prisma.post.findUnique({
-    where: { id },
+    where: { id: params.id },
     select: {
       title: true,
       content: true,
@@ -13,15 +11,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     },
   });
 
-  if (!post) {
-    return (
-      <div className="px-8 sm:px-20 py-20">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl text-red-600">Post nie istnieje.</h1>
-        </div>
-      </div>
-    );
-  }
+  if (!post) return notFound();
 
   return (
     <div className="px-8 sm:px-20 py-20">
