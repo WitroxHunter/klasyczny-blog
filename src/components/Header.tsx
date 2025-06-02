@@ -60,9 +60,9 @@ export default function Header() {
               {!isloading ? (
                 <>
                   <li>
-                    <a href="/sign-up" className="hover:underline">
+                    <Link href="/sign-up" className="hover:underline">
                       Sign up
-                    </a>
+                    </Link>
                   </li>
                   <li>
                     <Link
