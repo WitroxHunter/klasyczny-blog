@@ -3,7 +3,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 type LoginFormData = {
   email: string;
