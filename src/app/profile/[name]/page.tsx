@@ -6,10 +6,11 @@ import Link from "next/link";
 export default async function ProfilePage({
   params,
 }: {
-  params: { name: string };
+  params: Promise<{ name: string }>;
 }) {
+  const { name } = await params;
   const user = await prisma.user.findUnique({
-    where: { name: params.name },
+    where: { name: name },
     include: {
       posts: {
         orderBy: { createdAt: "desc" },
