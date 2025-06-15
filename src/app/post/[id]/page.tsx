@@ -55,29 +55,29 @@ export default async function Page({
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={{
-                h1: ({ node, ...props }) => (
+                h1: ({ ...props }) => (
                   <h1
                     className="text-4xl font-bold mt-8 mb-4 text-white"
                     {...props}
                   />
                 ),
-                h2: ({ node, ...props }) => (
+                h2: ({ ...props }) => (
                   <h2
                     className="text-3xl font-bold mt-8 mb-4 text-white"
                     {...props}
                   />
                 ),
-                p: ({ node, ...props }) => (
+                p: ({ ...props }) => (
                   <p className="mb-4 text-gray-300" {...props} />
                 ),
-                ol: ({ node, ...props }) => (
+                ol: ({ ...props }) => (
                   <ol className="list-disc ml-6 mb-4" {...props} />
                 ),
-                ul: ({ node, ...props }) => (
+                ul: ({ ...props }) => (
                   <ul className="list-disc ml-6 mb-4" {...props} />
                 ),
-                li: ({ node, ...props }) => <li className="mb-2" {...props} />,
-                blockquote: ({ node, ...props }) => (
+                li: ({ ...props }) => <li className="mb-2" {...props} />,
+                blockquote: ({ ...props }) => (
                   <blockquote
                     className="border-l-4 border-gray-600 pl-4 italic text-gray-400"
                     {...props}
@@ -87,10 +87,6 @@ export default async function Page({
             >
               {post.content}
             </ReactMarkdown>
-
-            <div className="prose prose-invert">
-              <h1>dfsdf</h1>
-            </div>
           </div>
         </div>
 
