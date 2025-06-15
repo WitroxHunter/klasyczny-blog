@@ -69,7 +69,15 @@ export default function App() {
           <label className="block mb-1">Nick</label>
           <input
             type="text"
-            {...register("name", { required: "Pole wymagane", maxLength: 20 })}
+            {...register("name", {
+              required: "Pole wymagane",
+              maxLength: { value: 20, message: "Maksymalnie 20 znaków" },
+              pattern: {
+                value: /^[\w\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?`~]+$/,
+                message:
+                  "Nick nie może zawierać spacji ani niedozwolonych znaków",
+              },
+            })}
             className="w-full px-4 py-2 rounded bg-gray-700 text-white"
           />
           {errors.name && (

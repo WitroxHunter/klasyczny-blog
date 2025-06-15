@@ -10,7 +10,7 @@ export default async function ProfilePage({
 }) {
   const { name } = await params;
   const user = await prisma.user.findUnique({
-    where: { name: name },
+    where: { name },
     include: {
       posts: {
         orderBy: { createdAt: "desc" },
