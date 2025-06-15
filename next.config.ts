@@ -6,4 +6,9 @@ const nextConfig: NextConfig = {
   },
 };
 
+module.exports = {
+  images: {
+    remotePatterns: [new URL("https://thispersondoesnotexist.com/")],
+  },
+};
 export default nextConfig;

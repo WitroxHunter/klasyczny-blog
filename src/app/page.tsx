@@ -8,8 +8,12 @@ import Spinner from "@/components/Spinner";
 export default function Home() {
   type Post = {
     id: string;
+    content: string;
     title: string;
     createdAt: string;
+    author: {
+      name: string;
+    };
   };
 
   const [posts, setPosts] = useState<Post[]>([]);
@@ -44,16 +48,21 @@ export default function Home() {
         <div className="max-w-4xl mx-auto flex flex-col h-full">
           <h1 className="text-4xl mb-6">Posty:</h1>
 
-          <div className="flex-1 overflow-auto flex flex-col gap-8 border-t border-gray-700 pt-4">
+          <div className="flex-1 overflow-auto flex flex-col gap-8 pt-4">
             {!loadingPosts ? (
               posts.map((post) => (
                 <Link
                   key={post.id}
                   href={`/post/${post.id}`}
-                  className="p-4 border-b border-gray-500 bg-black w-full hover:bg-blue-900 transition"
+                  className="p-4 border border-gray-700 rounded-xl bg-zinc-900 w-full hover:bg-blue-900 transition relative"
                 >
-                  <h2 className="text-lg font-semibold">{post.title}</h2>
-                  <p className="text-sm text-gray-500">
+                  {/* Tytuł */}
+                  <div className="text-lg font-semibold whitespace-nowrap overflow-hidden text-ellipsis pr-24">
+                    {post.title}
+                  </div>
+
+                  {/* Data w prawym górnym rogu */}
+                  <div className="absolute top-4 right-4 text-gray-400 text-sm">
                     {new Date(post.createdAt).toLocaleString("pl-PL", {
                       day: "2-digit",
                       month: "2-digit",
@@ -61,6 +70,16 @@ export default function Home() {
                       hour: "2-digit",
                       minute: "2-digit",
                     })}
+                  </div>
+
+                  {/* Autor pod tytułem */}
+                  <div className="text-sm text-gray-400 mb-1">
+                    {post.author.name}
+                  </div>
+
+                  {/* Treść posta */}
+                  <p className="text-sm text-gray-300 whitespace-nowrap overflow-hidden text-ellipsis">
+                    {post.content}
                   </p>
                 </Link>
               ))

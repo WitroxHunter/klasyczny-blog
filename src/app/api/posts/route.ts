@@ -4,6 +4,13 @@ import { NextResponse } from "next/server";
 export async function GET() {
   const posts = await prisma.post.findMany({
     orderBy: { createdAt: "desc" },
+    include: {
+      author: {
+        select: {
+          name: true,
+        },
+      },
+    },
   });
   console.log("Zaladowano posty");
   return NextResponse.json(posts);

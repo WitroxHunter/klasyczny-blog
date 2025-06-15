@@ -12,7 +12,7 @@ export default function Modal({ onClose }: { onClose: () => void }) {
         const res = await fetch("/api/auth/me");
         if (res.ok) {
           const data = await res.json();
-          setAuthorId(data.user.id); // zakładam, że response to np. { user: { id, email, ... } }
+          setAuthorId(data.user.id);
         } else {
           console.error("Nie udało się pobrać danych użytkownika");
         }
