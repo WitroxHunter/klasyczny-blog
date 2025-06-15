@@ -42,7 +42,7 @@ export default function App() {
   };
   return (
     <div className="min-h-screen flex items-center justify-center text-white flex-col gap-4">
-      <h1 className="text-4xl">Zaloguj sie</h1>
+      <h1 className="text-4xl">Log in</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-4 bg-gray-800 p-8 rounded-lg w-full max-w-md shadow-lg"
