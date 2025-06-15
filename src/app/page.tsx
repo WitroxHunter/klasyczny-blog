@@ -93,7 +93,7 @@ export default function Home() {
       </div>
 
       <button
-        className="fixed bottom-6 sm:right-20 lg:right-8 border border-white rounded-xl py-4 px-10 text-3xl cursor-pointer hover:bg-gray-800 transition bg-black"
+        className="fixed bottom-6 right-8 border border-white rounded-xl py-4 px-10 text-3xl cursor-pointer hover:bg-gray-800 transition bg-black"
         onClick={openModal}
       >
         Postuj
