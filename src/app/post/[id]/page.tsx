@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
 
 export default async function Page({
   params,
@@ -54,6 +55,7 @@ export default async function Page({
           <div className="prose prose-invert text-white space-y-4">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeRaw]}
               components={{
                 h1: ({ ...props }) => (
                   <h1
@@ -71,7 +73,7 @@ export default async function Page({
                   <p className="mb-4 text-gray-300" {...props} />
                 ),
                 ol: ({ ...props }) => (
-                  <ol className="list-disc ml-6 mb-4" {...props} />
+                  <ol className="list-decimal ml-6 mb-4" {...props} />
                 ),
                 ul: ({ ...props }) => (
                   <ul className="list-disc ml-6 mb-4" {...props} />
@@ -80,6 +82,14 @@ export default async function Page({
                 blockquote: ({ ...props }) => (
                   <blockquote
                     className="border-l-4 border-gray-600 pl-4 italic text-gray-400"
+                    {...props}
+                  />
+                ),
+                img: ({ src = "", alt = "", ...props }) => (
+                  <img
+                    src={src}
+                    alt={alt}
+                    className="my-4 rounded-xl max-w-full h-auto mx-auto shadow-md"
                     {...props}
                   />
                 ),
