@@ -13,6 +13,7 @@
     "@auth/prisma-adapter": "^2.9.1",
     "@prisma/client": "^6.8.2",
     "@prisma/extension-accelerate": "^2.0.1",
+    "@tailwindcss/typography": "^0.5.16",
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.2",
     "jsonwebtoken": "^9.0.2",
@@ -25,6 +26,7 @@
     "react-hook-form": "^7.56.4",
     "react-hot-toast": "^2.5.2",
     "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
     "zod": "^3.25.42"
   },
   "devDependencies": {

@@ -2,6 +2,8 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export default async function Page({
   params,
@@ -49,8 +51,46 @@ export default async function Page({
         {/* POST CONTENT */}
         <div className="bg-zinc-900 p-8 rounded-3xl shadow-md">
           <h1 className="text-3xl font-bold mb-4 text-white">{post.title}</h1>
-          <div className="text-gray-200 whitespace-pre-wrap text-lg">
-            {post.content}
+          <div className="prose prose-invert text-white space-y-4">
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              components={{
+                h1: ({ node, ...props }) => (
+                  <h1
+                    className="text-4xl font-bold mt-8 mb-4 text-white"
+                    {...props}
+                  />
+                ),
+                h2: ({ node, ...props }) => (
+                  <h2
+                    className="text-3xl font-bold mt-8 mb-4 text-white"
+                    {...props}
+                  />
+                ),
+                p: ({ node, ...props }) => (
+                  <p className="mb-4 text-gray-300" {...props} />
+                ),
+                ol: ({ node, ...props }) => (
+                  <ol className="list-disc ml-6 mb-4" {...props} />
+                ),
+                ul: ({ node, ...props }) => (
+                  <ul className="list-disc ml-6 mb-4" {...props} />
+                ),
+                li: ({ node, ...props }) => <li className="mb-2" {...props} />,
+                blockquote: ({ node, ...props }) => (
+                  <blockquote
+                    className="border-l-4 border-gray-600 pl-4 italic text-gray-400"
+                    {...props}
+                  />
+                ),
+              }}
+            >
+              {post.content}
+            </ReactMarkdown>
+
+            <div className="prose prose-invert">
+              <h1>dfsdf</h1>
+            </div>
           </div>
         </div>
 
