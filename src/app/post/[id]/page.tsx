@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 export default async function Page({
   params,
@@ -34,9 +35,11 @@ export default async function Page({
             className="rounded-full object-cover"
           />
           <div>
-            <p className="text-white font-semibold text-lg">
-              {post.author?.name}
-            </p>
+            <Link href={`/profile/${post.author.name}`}>
+              <p className="text-white font-semibold text-lg">
+                {post.author?.name}
+              </p>
+            </Link>
             <p className="text-gray-400 text-sm">
               {new Date(post.createdAt).toLocaleString("pl-PL")}
             </p>
