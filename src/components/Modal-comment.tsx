@@ -1,12 +1,19 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import type { Comment } from "@prisma/client";
+
+type CommentWithAuthor = Comment & {
+  author?: {
+    name: string | null;
+  };
+};
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
   postId: string;
-  onCommentAdded: (comment: any) => void;
+  onCommentAdded: (comment: CommentWithAuthor) => void;
 };
 
 export default function ModalComment({
