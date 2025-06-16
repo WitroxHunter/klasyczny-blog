@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import Modal from "@/components/modal";
+import Modal from "@/components/Modal-post";
 import Spinner from "@/components/Spinner";
 
 export default function Home() {

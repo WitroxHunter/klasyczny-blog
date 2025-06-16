@@ -5,6 +5,7 @@ import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
+import { Comments } from "@/components/Comments";
 
 export default async function Page({
   params,
@@ -69,6 +70,9 @@ export default async function Page({
                     {...props}
                   />
                 ),
+                a: ({ ...props }) => (
+                  <a className=" text-cyan-500" {...props} />
+                ),
                 p: ({ ...props }) => (
                   <p className="mb-4 text-gray-300" {...props} />
                 ),
@@ -102,14 +106,7 @@ export default async function Page({
 
         {/* COMMENTS SECTION */}
         <div className="bg-zinc-900 p-6 rounded-3xl shadow-md space-y-4">
-          <div className="flex justify-between items-center">
-            <h2 className="text-white text-xl font-semibold">Komentarze</h2>
-            <button className="bg-indigo-600 hover:bg-indigo-700 transition text-white font-medium px-4 py-2 rounded-xl">
-              Dodaj komentarz
-            </button>
-          </div>
-
-          <p className="text-gray-400">Brak komentarzy.</p>
+          <Comments postId={post.id} />
         </div>
       </div>
     </div>
