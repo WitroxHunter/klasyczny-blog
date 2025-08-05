@@ -4,10 +4,18 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Spinner from "./Spinner";
+import Image from "next/image";
 
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isloading, setisLoading] = useState(true);
+  const [userData, setUserData] = useState<null | {
+    id: string;
+    email: string;
+    name: string;
+    createdAt: string;
+  }>(null);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -19,6 +27,7 @@ export default function Header() {
           if (data.user) {
             setIsLoggedIn(true);
             setisLoading(false);
+            setUserData(data.user);
           } else {
             setIsLoggedIn(false);
             setisLoading(false);
@@ -81,14 +90,30 @@ export default function Header() {
               )}
             </>
           ) : (
-            <li>
-              <button
-                onClick={handleLogout}
-                className="bg-red-600/50 hover:bg-red-700 text-white px-4 py-1 rounded-lg transition"
-              >
-                Log out
-              </button>
-            </li>
+            <>
+              <li>
+                <button
+                  onClick={handleLogout}
+                  className="bg-red-600/50 hover:bg-red-700 text-white px-4 py-1 rounded-lg transition"
+                >
+                  Log out
+                </button>
+              </li>
+              <li>Logged in as: {userData?.name}</li>
+              <li>
+                <div className="w-8 h-8 rounded-full overflow-hidden border-white">
+                  <Link href={`/profile/${userData?.name}`}>
+                    <Image
+                      src="/profile_placeholder.webp"
+                      alt="Profil"
+                      width={40}
+                      height={40}
+                      className="object-cover w-full h-full"
+                    />
+                  </Link>
+                </div>
+              </li>
+            </>
           )}
         </ul>
       </nav>
