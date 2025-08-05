@@ -19,6 +19,8 @@ model User {
   email     String    @unique
   name      String    @unique
   password  String
+  description String?
+  image     String?   @default("/profile_placeholder.webp")
   posts     Post[]    @relation("UserPosts")
   comments  Comment[] @relation("UserComments")
   createdAt DateTime  @default(now())

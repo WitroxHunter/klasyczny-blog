@@ -32,7 +32,7 @@ export default async function Page({
         {/* AUTHOR SECTION */}
         <div className="bg-zinc-900 p-6 rounded-3xl flex items-center gap-4 shadow-md">
           <Image
-            src="https://thispersondoesnotexist.com/"
+            src="/profile_placeholder.webp"
             alt={post.author.name || "Autor"}
             width={50}
             height={50}
