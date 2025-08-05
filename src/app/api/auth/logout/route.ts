@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
-export async function POST() {
-  const response = NextResponse.json({ message: "Wylogowano" });
+export async function POST(req: Request) {
+  const response = NextResponse.redirect(new URL("/login", req.url));
 
   response.cookies.set("token", "", {
     httpOnly: true,

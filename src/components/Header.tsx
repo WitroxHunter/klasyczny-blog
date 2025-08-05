@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import Spinner from "./Spinner";
 import Image from "next/image";
 
@@ -15,8 +14,6 @@ export default function Header() {
     name: string;
     createdAt: string;
   }>(null);
-
-  const router = useRouter();
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -45,15 +42,6 @@ export default function Header() {
 
     checkAuth();
   }, []);
-
-  const handleLogout = async () => {
-    await fetch("/api/auth/logout", {
-      method: "POST",
-    });
-
-    setIsLoggedIn(false);
-    router.push("/login");
-  };
 
   return (
     <header
@@ -91,14 +79,6 @@ export default function Header() {
             </>
           ) : (
             <>
-              <li>
-                <button
-                  onClick={handleLogout}
-                  className="bg-red-600/50 hover:bg-red-700 text-white px-4 py-1 rounded-lg transition"
-                >
-                  Log out
-                </button>
-              </li>
               <li>Logged in as: {userData?.name}</li>
               <li>
                 <div className="w-8 h-8 rounded-full overflow-hidden border-white">

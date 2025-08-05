@@ -1,8 +1,8 @@
-// app/profile/[name]/page.tsx
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+
 import { getUserFromCookie } from "@/lib/getUserFromCookie";
 
 export default async function ProfilePage({
@@ -57,12 +57,24 @@ export default async function ProfilePage({
           </div>
         </div>
         {isOwnProfile && (
-          <Link
-            href={`/profile/${profileUser.name}/edit`}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl"
-          >
-            Edytuj profil
-          </Link>
+          <>
+            <div className="flex flex-col gap-3">
+              <Link
+                href={`/profile/${profileUser.name}/edit`}
+                className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 w-full rounded-xl"
+              >
+                Edytuj profil
+              </Link>
+              <form method="POST" action="/api/auth/logout">
+                <button
+                  type="submit"
+                  className="bg-red-600/50 hover:bg-red-700 text-white px-4 py-2 w-full rounded-xl transition"
+                >
+                  Log out
+                </button>
+              </form>
+            </div>
+          </>
         )}
       </div>
 
