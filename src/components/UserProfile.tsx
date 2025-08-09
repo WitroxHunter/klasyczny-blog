@@ -9,7 +9,7 @@ interface UserProfileProps {
   profileUser: {
     id: string;
     name: string;
-    description?: string;
+    description?: string | null;
     createdAt: Date;
     posts: { id: string; title: string; createdAt: Date }[];
   };
