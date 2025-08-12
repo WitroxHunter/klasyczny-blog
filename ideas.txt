@@ -1,0 +1,8 @@
+post searching on main site
+post tags
+✅ comments
+✅ user profiles
+profile pictures hosting
+✅zrobic zeby sie od razu wczytywalo imie osoby co zrobila kom
+✅pooprawic systerm komentarzy
+(nie pamietam czy zrobilem) zrobic zeby do localstorage wsadzalo sie ze jestes zalogowany

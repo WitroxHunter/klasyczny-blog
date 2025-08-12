@@ -91,13 +91,12 @@ export default function Home() {
           </div>
         </div>
       </div>
-
-      <button
+      <Link
+        href={"/create-post"}
         className="fixed bottom-6 right-8 border border-white rounded-xl py-4 px-10 text-3xl cursor-pointer hover:bg-gray-800 transition bg-black"
-        onClick={openModal}
       >
         Postuj
-      </button>
+      </Link>
     </div>
   );
 }

@@ -44,25 +44,32 @@ export default function CreatePost() {
     formState: { errors },
     reset,
     setValue,
+    watch,
   } = useForm<FormData>();
+
+  const content = watch("content", "");
 
   const insertAtCursor = (before: string, after = "") => {
     if (!textareaRef.current) return;
     const textarea = textareaRef.current;
     const start = textarea.selectionStart;
     const end = textarea.selectionEnd;
-    const text = textarea.value;
+    const text = content;
     const newText =
       text.substring(0, start) +
       before +
       text.substring(start, end) +
       after +
       text.substring(end);
+
     setValue("content", newText);
     setPreviewContent(newText);
-    textarea.focus();
-    textarea.selectionStart = start + before.length;
-    textarea.selectionEnd = end + before.length;
+
+    requestAnimationFrame(() => {
+      textarea.selectionStart = start + before.length;
+      textarea.selectionEnd = end + before.length;
+      textarea.focus();
+    });
   };
 
   const onSubmit = async (data: FormData) => {
@@ -74,7 +81,7 @@ export default function CreatePost() {
       body: JSON.stringify({ ...data, authorId }),
     });
 
-    if (res.ok) reset();
+    if (res.ok) window.location.href = "/";
   };
 
   return (
@@ -91,7 +98,7 @@ export default function CreatePost() {
             <p className="text-red-500 text-sm">{errors.title.message}</p>
           )}
 
-          {/* Toolbar */}
+          {/* TOOLBAR */}
           <div className="flex items-center gap-2 border-b border-gray-700 pb-2 mb-4">
             <button
               type="button"
@@ -143,6 +150,7 @@ export default function CreatePost() {
               minLength: { value: 6, message: "Minimum 6 znaków" },
             })}
             ref={textareaRef}
+            value={content}
             onChange={(e) => {
               setValue("content", e.target.value);
               setPreviewContent(e.target.value);
@@ -150,6 +158,7 @@ export default function CreatePost() {
             placeholder="Napisz tutaj treść swojego posta..."
             className="flex-1 w-full text-lg bg-transparent text-white border-none outline-none placeholder-gray-500 resize-none"
           />
+
           {errors.content && (
             <p className="text-red-500 text-sm">{errors.content.message}</p>
           )}
