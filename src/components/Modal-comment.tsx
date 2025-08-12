@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import type { Comment } from "@prisma/client";
 
 type CommentWithAuthor = Comment & {
@@ -26,35 +26,39 @@ export default function ModalComment({
   const [loading, setLoading] = useState(false);
   const [authorId, setAuthorId] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchAuthorId = async () => {
-      try {
-        const res = await fetch("/api/auth/me");
-        if (res.ok) {
-          const data = await res.json();
-          setAuthorId(data.user.id);
-        } else {
-          console.error("Nie udało się pobrać danych użytkownika");
-        }
-      } catch (err) {
-        console.error("Błąd pobierania danych użytkownika:", err);
+  const fetchAuthorId = async () => {
+    try {
+      const res = await fetch("/api/auth/me");
+      if (res.ok) {
+        const data = await res.json();
+        setAuthorId(data.user.id);
+        return data.user.id;
+      } else {
+        console.error("Nie udało się pobrać danych użytkownika");
+        return null;
       }
-    };
-
-    fetchAuthorId();
-  }, []);
+    } catch (err) {
+      console.error("Błąd pobierania danych użytkownika:", err);
+      return null;
+    }
+  };
 
   const handleSubmit = async () => {
-    if (!authorId) return;
+    let id = authorId;
+    if (!id) {
+      id = await fetchAuthorId();
+      if (!id) return;
+    }
 
     setLoading(true);
     const res = await fetch("/api/comments", {
       method: "POST",
-      body: JSON.stringify({ postId, content, authorId }),
+      body: JSON.stringify({ postId, content, authorId: id }),
       headers: {
         "Content-Type": "application/json",
       },
     });
+
     const data = await res.json();
     onCommentAdded(data);
     setContent("");
