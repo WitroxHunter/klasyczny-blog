@@ -42,7 +42,6 @@ export default function CreatePost() {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
     setValue,
     watch,
   } = useForm<FormData>();

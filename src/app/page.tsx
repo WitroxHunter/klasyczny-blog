@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import Modal from "@/components/Modal-post";
 import Spinner from "@/components/Spinner";
 
 export default function Home() {
@@ -17,7 +16,6 @@ export default function Home() {
   };
 
   const [posts, setPosts] = useState<Post[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [loadingPosts, setLoadingPosts] = useState(true);
 
   const loadPosts = async () => {
@@ -31,19 +29,8 @@ export default function Home() {
     loadPosts();
   }, []);
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    loadPosts();
-  };
-
   return (
     <div className="h-screen w-screen overflow-hidden relative bg-black text-white">
-      {isModalOpen && <Modal onClose={closeModal} />}
-
       <div className="px-8 sm:px-20 py-20 h-full">
         <div className="max-w-4xl mx-auto flex flex-col h-full">
           <h1 className="text-4xl mb-6">Posty:</h1>
