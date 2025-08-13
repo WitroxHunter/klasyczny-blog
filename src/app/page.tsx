@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import Spinner from "@/components/Spinner";
+import MarkdownPostPreview from "@/components/Markdown-post-preview";
 
 export default function Home() {
   type Post = {
@@ -65,9 +66,7 @@ export default function Home() {
                   </div>
 
                   {/* Treść posta */}
-                  <p className="text-sm text-gray-300 whitespace-nowrap overflow-hidden text-ellipsis">
-                    {post.content}
-                  </p>
+                  <MarkdownPostPreview content={post.content} />
                 </Link>
               ))
             ) : (

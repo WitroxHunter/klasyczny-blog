@@ -2,6 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { useEffect, useRef, useState } from "react";
+import Demo from "@/components/Color-picker";
 import {
   Bold,
   Italic,
@@ -9,6 +10,7 @@ import {
   ListOrdered,
   Image as ImageIcon,
   Link as LinkIcon,
+  LetterText,
 } from "lucide-react";
 import MarkdownComponent from "@/components/Markdown-component";
 
@@ -16,6 +18,8 @@ export default function CreatePost() {
   const [authorId, setAuthorId] = useState<string | null>(null);
   const [previewContent, setPreviewContent] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [showColorPicker, setShowColorPicker] = useState(false);
+  const colorPickerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchAuthorId = async () => {
@@ -32,11 +36,21 @@ export default function CreatePost() {
     fetchAuthorId();
   }, []);
 
-  type FormData = {
-    title: string;
-    tags: [];
-    content: string;
-  };
+  // Zamknięcie pickera po kliknięciu poza nim
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        colorPickerRef.current &&
+        !colorPickerRef.current.contains(e.target as Node)
+      ) {
+        setShowColorPicker(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  type FormData = { title: string; tags: []; content: string };
 
   const {
     register,
@@ -45,7 +59,6 @@ export default function CreatePost() {
     setValue,
     watch,
   } = useForm<FormData>();
-
   const content = watch("content", "");
 
   const insertAtCursor = (before: string, after = "") => {
@@ -69,6 +82,11 @@ export default function CreatePost() {
       textarea.selectionEnd = end + before.length;
       textarea.focus();
     });
+  };
+
+  const handleColorSelect = (color: string) => {
+    insertAtCursor(`<span style="color:${color}">`, "</span>");
+    setShowColorPicker(false);
   };
 
   const onSubmit = async (data: FormData) => {
@@ -98,7 +116,7 @@ export default function CreatePost() {
           )}
 
           {/* TOOLBAR */}
-          <div className="flex items-center gap-2 border-b border-gray-700 pb-2 mb-4">
+          <div className="flex items-center gap-2 border-b border-gray-700 pb-2 mb-4 overflow-x-scroll">
             <button
               type="button"
               onClick={() => insertAtCursor("**", "**")}
@@ -141,8 +159,25 @@ export default function CreatePost() {
             >
               <LinkIcon size={18} className="text-gray-300" />
             </button>
+            <button
+              type="button"
+              onClick={() => setShowColorPicker(!showColorPicker)}
+              className="p-2 hover:bg-gray-800 rounded"
+            >
+              <LetterText size={18} className="text-gray-300" />
+            </button>
           </div>
 
+          {showColorPicker && (
+            <div
+              ref={colorPickerRef}
+              className="ml-80 absolute z-50 bg-gray-800 p-4 rounded-lg shadow-lg"
+            >
+              <Demo onColorSelect={handleColorSelect} />
+            </div>
+          )}
+
+          {/* TEXTAREA */}
           <textarea
             {...register("content", {
               required: "Treść jest wymagana",
