@@ -3,11 +3,15 @@ import { notFound } from "next/navigation";
 import { getUserFromCookie } from "@/lib/getUserFromCookie";
 import UserProfile from "@/components/UserProfile";
 
-interface ProfilePageProps {
-  params: { name: string };
+interface ProfilePageParams {
+  name: string;
 }
 
-export default async function ProfilePage({ params }: ProfilePageProps) {
+export default async function ProfilePage({
+  params,
+}: {
+  params: ProfilePageParams;
+}) {
   const loggedInUser = await getUserFromCookie();
 
   const profileUser = await prisma.user.findUnique({
