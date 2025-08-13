@@ -130,16 +130,30 @@ export default function CreatePost() {
     setShowColorPicker(false);
   };
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const onSubmit = async (data: FormData) => {
     if (!authorId) return alert("Nie udało się pobrać ID użytkownika.");
 
-    const res = await fetch("/api/posts", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...data, authorId }),
-    });
+    setIsSubmitting(true);
 
-    if (res.ok) window.location.href = "/";
+    try {
+      const res = await fetch("/api/posts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...data, authorId }),
+      });
+
+      if (res.ok) window.location.href = "/";
+      else {
+        alert("Nie udało się opublikować posta.");
+        setIsSubmitting(false);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Wystąpił błąd.");
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -386,9 +400,14 @@ export default function CreatePost() {
           )}
           <button
             type="submit"
-            className="mt-4 px-5 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium"
+            disabled={isSubmitting}
+            className={`mt-4 px-5 py-2 rounded-lg text-white font-medium ${
+              isSubmitting
+                ? "bg-gray-500 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+            }`}
           >
-            Opublikuj post
+            {isSubmitting ? "Publikowanie..." : "Opublikuj post"}
           </button>
         </div>
 

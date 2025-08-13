@@ -18,7 +18,6 @@ interface CodeProps {
   children?: React.ReactNode;
 }
 
-// lista obsługiwanych języków (przykładowo)
 type SupportedLanguages =
   | "javascript"
   | "typescript"
