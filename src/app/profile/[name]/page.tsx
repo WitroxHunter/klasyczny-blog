@@ -7,7 +7,11 @@ interface Params {
   name: string;
 }
 
-export default async function ProfilePage({ params }: { params: Params }) {
+interface ProfilePageProps {
+  params: Params;
+}
+
+export default async function ProfilePage({ params }: ProfilePageProps) {
   const loggedInUser = await getUserFromCookie();
 
   const profileUser = await prisma.user.findUnique({
@@ -32,6 +36,5 @@ export default async function ProfilePage({ params }: { params: Params }) {
 
   const isOwnProfile = loggedInUser?.id === profileUser.id;
 
-  // Przekazujemy dane jako props do komponentu klienta
   return <UserProfile profileUser={profileUser} isOwnProfile={isOwnProfile} />;
 }
