@@ -2,7 +2,10 @@ import React from "react";
 import ReactMarkdown, { Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import {
+  Prism as SyntaxHighlighter,
+  SyntaxHighlighterProps,
+} from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 interface MarkdownProps {
@@ -14,6 +17,15 @@ interface CodeProps {
   className?: string;
   children?: React.ReactNode;
 }
+
+// lista obsługiwanych języków (przykładowo)
+type SupportedLanguages =
+  | "javascript"
+  | "typescript"
+  | "css"
+  | "html"
+  | "json"
+  | "text";
 
 function isValidUrl(url: string) {
   try {
@@ -84,13 +96,18 @@ export default function MarkdownComponent({ content }: MarkdownProps) {
           </code>
         );
       }
+
       const match = /language-(\w+)/.exec(className || "");
+      const language = (match?.[1]?.toLowerCase() ??
+        "text") as SupportedLanguages;
+
       return (
         <div className="my-4">
           <SyntaxHighlighter
-            style={oneDark as any}
-            language={(match ? match[1] : "text") as any}
+            style={oneDark}
+            language={language}
             PreTag="div"
+            {...(props as SyntaxHighlighterProps)}
           >
             {String(children).replace(/\n$/, "")}
           </SyntaxHighlighter>
