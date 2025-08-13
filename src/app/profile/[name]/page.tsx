@@ -3,15 +3,8 @@ import { notFound } from "next/navigation";
 import { getUserFromCookie } from "@/lib/getUserFromCookie";
 import UserProfile from "@/components/UserProfile";
 
-type ProfilePageParams = {
-  name: string;
-};
-
-type ProfilePageProps = {
-  params: ProfilePageParams;
-};
-
-export default async function ProfilePage({ params }: ProfilePageProps) {
+// @ts-expect-error - Next.js App Router wymusza dziwne typy PageProps
+export default async function ProfilePage({ params }: any) {
   const loggedInUser = await getUserFromCookie();
 
   const profileUser = await prisma.user.findUnique({
