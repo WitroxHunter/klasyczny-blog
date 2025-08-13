@@ -1,10 +1,22 @@
+import React from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import Image from "next/image";
 
-export default function MarkdownComponent(props: { content: string | null }) {
+interface MarkdownProps {
+  content: string | null;
+}
+
+interface CodeProps {
+  inline?: boolean;
+  className?: string;
+  children: React.ReactNode;
+}
+
+export default function MarkdownComponent({ content }: MarkdownProps) {
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
@@ -33,10 +45,12 @@ export default function MarkdownComponent(props: { content: string | null }) {
           />
         ),
         img: ({ src = "", alt = "", ...props }) => (
-          <img
+          <Image
             src={src}
             alt={alt}
             className="my-4 rounded-xl max-w-full h-auto mx-auto shadow-md"
+            width={800}
+            height={600}
             {...props}
           />
         ),
@@ -59,8 +73,12 @@ export default function MarkdownComponent(props: { content: string | null }) {
           />
         ),
 
-        // inline code
-        code({ node, inline, className, children, ...props }) {
+        code: ({
+          inline,
+          className,
+          children,
+          ...props
+        }: CodeProps & React.HTMLAttributes<HTMLElement>) => {
           if (inline) {
             return (
               <code
@@ -71,7 +89,7 @@ export default function MarkdownComponent(props: { content: string | null }) {
               </code>
             );
           }
-          // code block
+
           const match = /language-(\w+)/.exec(className || "");
           return (
             <SyntaxHighlighter
@@ -86,7 +104,7 @@ export default function MarkdownComponent(props: { content: string | null }) {
         },
       }}
     >
-      {props.content}
+      {content || ""}
     </ReactMarkdown>
   );
 }
