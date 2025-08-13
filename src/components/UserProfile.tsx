@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
+import PostList from "./Posts-list";
 
 interface UserProfileProps {
   profileUser: {
@@ -192,21 +193,12 @@ export default function UserProfile({
       {/* POSTY */}
       <div className="space-y-4">
         <h2 className="text-xl text-white font-semibold">Posty użytkownika</h2>
+
         {profileUser.posts.length === 0 ? (
           <p className="text-gray-400">Brak postów.</p>
         ) : (
-          profileUser.posts.map((post) => (
-            <Link
-              key={post.id}
-              href={`/post/${post.id}`}
-              className="block bg-zinc-800 hover:bg-zinc-700 transition p-4 rounded-xl"
-            >
-              <h3 className="text-white text-lg font-medium">{post.title}</h3>
-              <p className="text-gray-400 text-sm">
-                {new Date(post.createdAt).toLocaleString("pl-PL")}
-              </p>
-            </Link>
-          ))
+          // Tworzymy lokalny stan postów, żeby móc usuwać bez odświeżania
+          <PostList posts={profileUser.posts} isOwnProfile={isOwnProfile} />
         )}
       </div>
     </div>

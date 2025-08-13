@@ -3,16 +3,15 @@ import { notFound } from "next/navigation";
 import { getUserFromCookie } from "@/lib/getUserFromCookie";
 import UserProfile from "@/components/UserProfile";
 
-export default async function ProfilePage({
-  params,
-}: {
-  params: Promise<{ name: string }>;
-}) {
-  const resolvedParams = await params;
+interface Params {
+  name: string;
+}
+
+export default async function ProfilePage({ params }: { params: Params }) {
   const loggedInUser = await getUserFromCookie();
 
   const profileUser = await prisma.user.findUnique({
-    where: { name: resolvedParams.name },
+    where: { name: params.name },
     select: {
       id: true,
       name: true,
@@ -33,5 +32,6 @@ export default async function ProfilePage({
 
   const isOwnProfile = loggedInUser?.id === profileUser.id;
 
+  // Przekazujemy dane jako props do komponentu klienta
   return <UserProfile profileUser={profileUser} isOwnProfile={isOwnProfile} />;
 }

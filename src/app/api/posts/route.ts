@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { getUserFromCookie } from "@/lib/getUserFromCookie";
 
+// GET wszystkie posty
 export async function GET() {
   const posts = await prisma.post.findMany({
     orderBy: { createdAt: "desc" },
@@ -16,6 +18,7 @@ export async function GET() {
   return NextResponse.json(posts);
 }
 
+// POST nowy post
 export async function POST(req: Request) {
   const body = await req.json();
   const { authorId, title, content } = body;
@@ -29,4 +32,34 @@ export async function POST(req: Request) {
   });
 
   return NextResponse.json(newPost);
+}
+
+// DELETE post
+export async function DELETE(req: Request) {
+  try {
+    const user = await getUserFromCookie();
+    if (!user)
+      return NextResponse.json({ message: "Nie zalogowany" }, { status: 401 });
+
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+    if (!id) return NextResponse.json({ message: "Brak ID" }, { status: 400 });
+
+    const post = await prisma.post.findUnique({ where: { id } });
+    if (!post)
+      return NextResponse.json(
+        { message: "Post nie istnieje" },
+        { status: 404 }
+      );
+
+    if (post.authorId !== user.id)
+      return NextResponse.json({ message: "Brak dostępu" }, { status: 403 });
+
+    await prisma.post.delete({ where: { id } });
+
+    return NextResponse.json({ message: "Post usunięty" });
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json({ message: "Błąd serwera" }, { status: 500 });
+  }
 }
