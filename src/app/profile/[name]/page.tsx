@@ -11,7 +11,7 @@ interface ProfilePageParams {
 export default async function ProfilePage({
   params,
 }: {
-  params: ProfilePageParams;
+  params: { name: string };
 }) {
   const loggedInUser = await getUserFromCookie();
 
