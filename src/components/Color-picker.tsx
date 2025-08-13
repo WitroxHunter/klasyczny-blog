@@ -29,13 +29,12 @@ function Demo({ onColorSelect }: { onColorSelect: (color: string) => void }) {
         style={{ background: "#1f1f1f" }}
         color={hsva}
         presetColors={PRESET_COLORS}
-        onChange={(color: any) => {
-          setHsva(color.hsva); // pozwala dalej przeciągać kursor po pickerze
-          setHex(color.hex); // zapamiętujemy bieżący kolor, ale NIC nie wstawiamy
+        onChange={(color: any | string) => {
+          setHsva(color.hsva);
+          setHex(color.hex);
         }}
       />
 
-      {/* przycisk zatwierdzający */}
       <button
         type="button"
         onClick={() => onColorSelect(hex)}
