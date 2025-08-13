@@ -18,8 +18,20 @@ const PRESET_COLORS = [
   "#EB2F96",
 ];
 
+interface HSVA {
+  h: number;
+  s: number;
+  v: number;
+  a: number;
+}
+
+interface ColorChange {
+  hex: string;
+  hsva: HSVA;
+}
+
 function Demo({ onColorSelect }: { onColorSelect: (color: string) => void }) {
-  const [hsva, setHsva] = useState({ h: 214, s: 43, v: 90, a: 1 });
+  const [hsva, setHsva] = useState<HSVA>({ h: 214, s: 43, v: 90, a: 1 });
   const [hex, setHex] = useState("#1890FF");
 
   return (
@@ -29,7 +41,7 @@ function Demo({ onColorSelect }: { onColorSelect: (color: string) => void }) {
         style={{ background: "#1f1f1f" }}
         color={hsva}
         presetColors={PRESET_COLORS}
-        onChange={(color: any | string) => {
+        onChange={(color: ColorChange) => {
           setHsva(color.hsva);
           setHex(color.hex);
         }}
