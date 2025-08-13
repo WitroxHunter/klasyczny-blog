@@ -3,11 +3,6 @@ import { notFound } from "next/navigation";
 import { getUserFromCookie } from "@/lib/getUserFromCookie";
 import UserProfile from "@/components/UserProfile";
 
-// Dynamiczny parametr [name]
-interface ProfilePageParams {
-  name: string;
-}
-
 export default async function ProfilePage({
   params,
 }: {
