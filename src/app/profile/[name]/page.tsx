@@ -3,14 +3,10 @@ import { notFound } from "next/navigation";
 import { getUserFromCookie } from "@/lib/getUserFromCookie";
 import UserProfile from "@/components/UserProfile";
 
-interface ProfilePageParams {
-  name: string;
-}
-
 export default async function ProfilePage({
   params,
 }: {
-  params: ProfilePageParams;
+  params: { [key: string]: string };
 }) {
   const loggedInUser = await getUserFromCookie();
 
