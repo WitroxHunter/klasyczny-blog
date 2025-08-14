@@ -15,7 +15,7 @@ interface PostListProps {
 
 function PostList({ posts: initialPosts, isOwnProfile }: PostListProps) {
   const [posts, setPosts] = useState(initialPosts);
-  const [loadingIds, setLoadingIds] = useState<string[]>([]); // do blokowania przycisku
+  const [loadingIds, setLoadingIds] = useState<string[]>([]);
 
   const deletePost = async (id: string) => {
     if (!confirm("Czy na pewno chcesz usunąć ten post?")) return;

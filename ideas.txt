@@ -5,5 +5,7 @@ post tags
 profile pictures hosting
 ✅zrobic zeby sie od razu wczytywalo imie osoby co zrobila kom
 ✅pooprawic systerm komentarzy
-(nie pamietam czy zrobilem) zrobic zeby do localstorage wsadzalo sie ze jestes zalogowany
-naprawic usuwanie postow
+(nie pamietam czy zrobilem) zrobic zeby do localstorage wsadzalo sie ze jestes zalogowany - zrobic ze daje auth do layoutu i od razu wszedzie
+✅naprawic usuwanie postow
+✅post preview fixed
+

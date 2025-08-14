@@ -5,11 +5,11 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 
-const sanitizeProps = (props: any) => {
-  const safeProps: Record<string, any> = {};
+const sanitizeProps = (props: React.HTMLAttributes<HTMLElement>) => {
+  const safeProps: React.HTMLAttributes<HTMLElement> = {};
   Object.entries(props).forEach(([key, value]) => {
     if (!key.startsWith("on") || typeof value === "function") {
-      safeProps[key] = value;
+      safeProps[key as keyof React.HTMLAttributes<HTMLElement>] = value as any;
     }
   });
   return safeProps;
@@ -33,7 +33,6 @@ export default function MarkdownPostPreview({
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeRaw]}
         components={{
-          // Zmiana komponentow na inline
           p: (props) => <span {...sanitizeProps(props)} />,
           h1: (props) => <span {...sanitizeProps(props)} />,
           h2: (props) => <span {...sanitizeProps(props)} />,
@@ -54,7 +53,7 @@ export default function MarkdownPostPreview({
               src={src}
               alt={alt}
               className="w-40 my-4 rounded-xl max-w-full h-auto mx-auto shadow-md"
-              {...sanitizeProps(props)}
+              {...sanitizeProps(props as React.HTMLAttributes<HTMLElement>)}
             />
           ),
           br: () => <></>,
