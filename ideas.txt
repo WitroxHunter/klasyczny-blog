@@ -8,4 +8,5 @@ profile pictures hosting
 (nie pamietam czy zrobilem) zrobic zeby do localstorage wsadzalo sie ze jestes zalogowany - zrobic ze daje auth do layoutu i od razu wszedzie
 ✅naprawic usuwanie postow
 ✅post preview fixed
+poprawic wyswietlanie h1-h6 w postach
 

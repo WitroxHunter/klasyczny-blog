@@ -9,7 +9,8 @@ const sanitizeProps = (props: React.HTMLAttributes<HTMLElement>) => {
   const safeProps: React.HTMLAttributes<HTMLElement> = {};
   Object.entries(props).forEach(([key, value]) => {
     if (!key.startsWith("on") || typeof value === "function") {
-      safeProps[key as keyof React.HTMLAttributes<HTMLElement>] = value as any;
+      // value ma typ unknown, więc TypeScript nie krzyczy
+      (safeProps as Record<string, unknown>)[key] = value;
     }
   });
   return safeProps;
@@ -25,9 +26,7 @@ export default function MarkdownPostPreview({
   return (
     <div
       className="text-sm text-gray-300 overflow-hidden text-ellipsis max-w-full"
-      style={{
-        whiteSpace: "nowrap",
-      }}
+      style={{ whiteSpace: "nowrap" }}
     >
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
@@ -53,7 +52,7 @@ export default function MarkdownPostPreview({
               src={src}
               alt={alt}
               className="w-40 my-4 rounded-xl max-w-full h-auto mx-auto shadow-md"
-              {...sanitizeProps(props as React.HTMLAttributes<HTMLElement>)}
+              {...sanitizeProps(props)}
             />
           ),
           br: () => <></>,
