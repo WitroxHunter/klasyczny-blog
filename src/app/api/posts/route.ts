@@ -41,8 +41,8 @@ export async function DELETE(req: Request) {
     if (!user)
       return NextResponse.json({ message: "Nie zalogowany" }, { status: 401 });
 
-    const { searchParams } = new URL(req.url);
-    const id = searchParams.get("id");
+    const body = await req.json();
+    const id = body.id as string;
     if (!id) return NextResponse.json({ message: "Brak ID" }, { status: 400 });
 
     const post = await prisma.post.findUnique({ where: { id } });

@@ -22,7 +22,11 @@ function PostList({ posts: initialPosts, isOwnProfile }: PostListProps) {
 
     try {
       setLoadingIds((prev) => [...prev, id]);
-      const res = await fetch(`/api/posts?id=${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/posts`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
 
       if (!res.ok) {
         const data = await res.json();
