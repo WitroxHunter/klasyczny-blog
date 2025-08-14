@@ -5,15 +5,22 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 
+// Funkcja do czyszczenia propsów
 const sanitizeProps = (props: React.HTMLAttributes<HTMLElement>) => {
   const safeProps: React.HTMLAttributes<HTMLElement> = {};
   Object.entries(props).forEach(([key, value]) => {
     if (!key.startsWith("on") || typeof value === "function") {
-      // value ma typ unknown, więc TypeScript nie krzyczy
       (safeProps as Record<string, unknown>)[key] = value;
     }
   });
   return safeProps;
+};
+
+// Funkcja do pobrania pierwszego obrazka z markdowna
+const extractFirstImage = (content: string) => {
+  const regex = /!\[.*?\]\((.*?)\)/; // ![alt](src)
+  const match = content.match(regex);
+  return match ? match[1] : null;
 };
 
 export default function MarkdownPostPreview({
@@ -23,11 +30,20 @@ export default function MarkdownPostPreview({
 }) {
   if (!content) return null;
 
+  const firstImgSrc = extractFirstImage(content);
+
   return (
     <div
       className="text-sm text-gray-300 overflow-hidden text-ellipsis max-w-full"
       style={{ whiteSpace: "nowrap" }}
     >
+      {firstImgSrc && (
+        <img
+          src={firstImgSrc}
+          alt="preview"
+          className="w-40 my-4 rounded-xl max-w-full h-auto mx-auto shadow-md float-right"
+        />
+      )}
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeRaw]}
@@ -47,14 +63,7 @@ export default function MarkdownPostPreview({
           li: (props) => <span {...sanitizeProps(props)} />,
           blockquote: (props) => <span {...sanitizeProps(props)} />,
           hr: () => <></>,
-          img: ({ src = "", alt = "", ...props }) => (
-            <img
-              src={src}
-              alt={alt}
-              className="w-40 my-4 rounded-xl max-w-full h-auto mx-auto shadow-md"
-              {...sanitizeProps(props)}
-            />
-          ),
+          img: () => null,
           br: () => <></>,
         }}
       >

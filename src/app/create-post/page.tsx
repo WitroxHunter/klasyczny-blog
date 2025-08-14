@@ -356,9 +356,9 @@ export default function CreatePost() {
 
             {/* Media */}
             <button
-              onClick={() => insertAtCursor('<img src="" alt="">')}
+              onClick={() => insertAtCursor("![]()")}
               type="button"
-              title="Obrazek: <img src=...>"
+              title="Obrazek: ![ALT](URL)"
               className="p-2 hover:bg-gray-800 rounded"
             >
               <ImageIcon size={18} className="text-gray-300" />
