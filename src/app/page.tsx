@@ -42,7 +42,7 @@ export default function Home() {
                 <Link
                   key={post.id}
                   href={`/post/${post.id}`}
-                  className="p-4 border border-gray-700 rounded-xl bg-zinc-900 w-full hover:bg-blue-900 transition relative"
+                  className="p-4 border border-gray-700 rounded-xl bg-zinc-900 w-full hover:bg-blue-900 transition relative overflow-x-clip"
                 >
                   {/* Tytuł */}
                   <div className="text-lg font-semibold whitespace-nowrap overflow-hidden text-ellipsis pr-24">

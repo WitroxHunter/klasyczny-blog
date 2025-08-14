@@ -1,41 +1,67 @@
+"use client";
+
+import React from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 
-export default function MarkdownPostPreview(props: { content: string | null }) {
+const sanitizeProps = (props: any) => {
+  const safeProps: Record<string, any> = {};
+  Object.entries(props).forEach(([key, value]) => {
+    if (!key.startsWith("on") || typeof value === "function") {
+      safeProps[key] = value;
+    }
+  });
+  return safeProps;
+};
+
+export default function MarkdownPostPreview({
+  content,
+}: {
+  content: string | null;
+}) {
+  if (!content) return null;
+
   return (
-    <>
-      <span className="text-sm text-gray-300 whitespace-nowrap overflow-hidden text-ellipsis">
-        <ReactMarkdown
-          remarkPlugins={[remarkGfm]}
-          rehypePlugins={[rehypeRaw]}
-          components={{
-            h1: (props) => <span {...props} />,
-            h2: (props) => <span {...props} />,
-            a: (props) => <span className=" text-cyan-500" {...props} />,
-            p: (props) => <span className=" text-gray-300" {...props} />,
-            ol: (props) => <span className="" {...props} />,
-            ul: (props) => <span className="" {...props} />,
-            li: (props) => <span className="" {...props} />,
-            blockquote: (props) => (
-              <blockquote
-                className="border-l-4 border-gray-600 pl-4 italic text-gray-400"
-                {...props}
-              />
-            ),
-            img: ({ src = "", alt = "", ...props }) => (
-              <img
-                src={src}
-                alt={alt}
-                className="w-40 my-4 rounded-xl max-w-full h-auto mx-auto shadow-md"
-                {...props}
-              />
-            ),
-          }}
-        >
-          {props.content}
-        </ReactMarkdown>
-      </span>
-    </>
+    <div
+      className="text-sm text-gray-300 overflow-hidden text-ellipsis max-w-full"
+      style={{
+        whiteSpace: "nowrap",
+      }}
+    >
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
+        rehypePlugins={[rehypeRaw]}
+        components={{
+          // Zmiana komponentow na inline
+          p: (props) => <span {...sanitizeProps(props)} />,
+          h1: (props) => <span {...sanitizeProps(props)} />,
+          h2: (props) => <span {...sanitizeProps(props)} />,
+          h3: (props) => <span {...sanitizeProps(props)} />,
+          h4: (props) => <span {...sanitizeProps(props)} />,
+          h5: (props) => <span {...sanitizeProps(props)} />,
+          h6: (props) => <span {...sanitizeProps(props)} />,
+          a: (props) => (
+            <span className="text-cyan-500" {...sanitizeProps(props)} />
+          ),
+          ol: (props) => <span {...sanitizeProps(props)} />,
+          ul: (props) => <span {...sanitizeProps(props)} />,
+          li: (props) => <span {...sanitizeProps(props)} />,
+          blockquote: (props) => <span {...sanitizeProps(props)} />,
+          hr: () => <></>,
+          img: ({ src = "", alt = "", ...props }) => (
+            <img
+              src={src}
+              alt={alt}
+              className="w-40 my-4 rounded-xl max-w-full h-auto mx-auto shadow-md"
+              {...sanitizeProps(props)}
+            />
+          ),
+          br: () => <></>,
+        }}
+      >
+        {content}
+      </ReactMarkdown>
+    </div>
   );
 }
