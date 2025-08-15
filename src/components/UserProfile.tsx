@@ -67,9 +67,9 @@ export default function UserProfile({
       return;
     }
 
-    // Po zapisie aktualizujemy wartości formularza na nowe
     reset(data);
     setEditingProfile(false);
+    window.location.reload();
   };
 
   const handleCancel = () => {

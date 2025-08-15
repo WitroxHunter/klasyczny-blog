@@ -9,4 +9,4 @@ profile pictures hosting
 ✅naprawic usuwanie postow
 ✅post preview fixed
 poprawic wyswietlanie h1-h6 w postach
-
+email verification

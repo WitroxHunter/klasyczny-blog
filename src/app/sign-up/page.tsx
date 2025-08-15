@@ -35,7 +35,7 @@ export default function App() {
   const onSubmit = async (data: SignupFormData) => {
     console.log(data);
     try {
-      const res = await fetch("/api/users", {
+      const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -46,8 +46,7 @@ export default function App() {
       if (!res.ok) {
         const result = await res.json();
         setKomunikat(result.error);
-        console.error("Błąd:", result);
-        return;
+        throw new Error(result.error || "Wystąpił błąd podczas rejestracji");
       }
 
       const user = await res.json();

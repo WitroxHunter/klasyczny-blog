@@ -10,15 +10,25 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Missing fields" }, { status: 400 });
   }
 
-  const existingUser = await prisma.user.findUnique({
-    where: { email },
+  const existingUser = await prisma.user.findFirst({
+    where: {
+      OR: [{ email }, { name }],
+    },
   });
 
   if (existingUser) {
-    return NextResponse.json(
-      { error: "Konto z tym adresem e-mail już istnieje." },
-      { status: 409 }
-    );
+    if (existingUser.email === email) {
+      return NextResponse.json(
+        { error: "Konto z tym adresem e-mail już istnieje." },
+        { status: 409 }
+      );
+    }
+    if (existingUser.name === name) {
+      return NextResponse.json(
+        { error: "Użytkownik z tą nazwą już istnieje." },
+        { status: 409 }
+      );
+    }
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
