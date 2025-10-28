@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import Link from "next/link";
 import { Mail, Lock, LogIn } from "lucide-react";
-import Image from "next/image";
 
 type LoginFormData = {
   email: string;
