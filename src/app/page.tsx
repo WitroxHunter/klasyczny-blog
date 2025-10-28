@@ -1,8 +1,8 @@
 "use client";
-
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import Spinner from "@/components/Spinner";
+import { Search, Calendar, Plus } from "lucide-react";
 import MarkdownPostPreview from "@/components/Markdown-post-preview";
 
 export default function Home() {
@@ -18,6 +18,7 @@ export default function Home() {
 
   const [posts, setPosts] = useState<Post[]>([]);
   const [loadingPosts, setLoadingPosts] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const loadPosts = async () => {
     const res = await fetch("/api/posts");
@@ -30,58 +31,134 @@ export default function Home() {
     loadPosts();
   }, []);
 
+  const filteredPosts = posts.filter(
+    (post) =>
+      post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.author.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
-    <div className="h-screen w-screen overflow-hidden relative bg-black text-white">
-      <div className="px-8 sm:px-20 py-20 h-full">
-        <div className="max-w-4xl mx-auto flex flex-col h-full">
-          <h1 className="text-4xl mb-6">Posty:</h1>
+    <div className="min-h-screen w-full bg-gradient-to-br from-gray-950 to-gray-900 text-white">
+      <div className="max-w-5xl mx-auto px-6 sm:px-8 py-8">
+        {/* Search Bar */}
+        <div className="mb-8">
+          <div className="relative">
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 z-1" />
 
-          <div className="flex-1 overflow-auto flex flex-col gap-8 pt-4">
-            {!loadingPosts ? (
-              posts.map((post) => (
-                <Link
-                  key={post.id}
-                  href={`/post/${post.id}`}
-                  className="p-4 border border-gray-700 rounded-xl bg-zinc-900 w-full hover:bg-blue-900 transition relative overflow-x-clip"
-                >
-                  {/* Tytuł */}
-                  <div className="text-lg font-semibold whitespace-nowrap overflow-hidden text-ellipsis pr-24">
-                    {post.title}
-                  </div>
-
-                  {/* Data w prawym górnym rogu */}
-                  <div className="absolute top-4 right-4 text-gray-400 text-sm">
-                    {new Date(post.createdAt).toLocaleString("pl-PL", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </div>
-
-                  {/* Autor pod tytułem */}
-                  <div className="text-sm text-gray-400 mb-1">
-                    {post.author.name}
-                  </div>
-
-                  {/* Treść posta */}
-                  <MarkdownPostPreview content={post.content} />
-                </Link>
-              ))
-            ) : (
-              <div className="flex justify-center mt-8">
-                <Spinner size="w-14 h-14" />
-              </div>
-            )}
+            <input
+              type="text"
+              placeholder="Search posts, authors, content..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-12 pr-4 py-4 bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-500 transition shadow-xl"
+            />
           </div>
         </div>
+
+        {/* Posts Grid */}
+        <div className="space-y-6">
+          {loadingPosts ? (
+            <div className="flex justify-center items-center py-20">
+              <Spinner size="w-14 h-14" />
+            </div>
+          ) : filteredPosts.length > 0 ? (
+            filteredPosts.map((post) => (
+              <article
+                key={post.id}
+                className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl p-6 hover:border-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300 group"
+              >
+                {/* Header with Title and Date */}
+                <div className="flex items-start justify-between gap-4 mb-4">
+                  <Link href={`/post/${post.id}`} className="flex-1 min-w-0">
+                    <h2 className="text-xl sm:text-2xl font-bold text-white group-hover:text-blue-400 transition-colors line-clamp-2">
+                      {post.title}
+                    </h2>
+                  </Link>
+                  <div className="flex items-center gap-1 text-xs sm:text-sm text-gray-400 shrink-0">
+                    <Calendar className="w-4 h-4" />
+                    <time className="hidden sm:inline">
+                      {new Date(post.createdAt).toLocaleString("pl-PL", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </time>
+                    <time className="sm:hidden">
+                      {new Date(post.createdAt).toLocaleString("pl-PL", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </time>
+                  </div>
+                </div>
+
+                {/* Author */}
+                <Link
+                  href={`/profile/${post.author.name}`}
+                  onClick={(e) => e.stopPropagation()}
+                  className="inline-block mb-4"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white transition-colors duration-300 flex items-center justify-center font-bold text-xs shadow-md">
+                      {post.author.name.charAt(0).toUpperCase()}
+                    </div>
+                    <span className="text-sm text-gray-300 font-medium hover:text-white transition-colors">
+                      {post.author.name}
+                    </span>
+                  </div>
+                </Link>
+
+                {/* Content Preview */}
+                <Link href={`/post/${post.id}`} className="block">
+                  <div className="text-gray-400 leading-relaxed prose prose-invert prose-sm max-w-none">
+                    <MarkdownPostPreview content={post.content} />
+                  </div>
+
+                  {/* Read More Link */}
+                  <div className="mt-4 pt-4 border-t border-gray-800">
+                    <span className="text-blue-400 hover:text-blue-300 font-medium text-sm inline-flex items-center gap-2 group/btn">
+                      Read full post
+                      <svg
+                        className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                </Link>
+              </article>
+            ))
+          ) : (
+            <div className="text-center py-20">
+              <div className="text-gray-400 text-lg mb-2">No posts found</div>
+              <div className="text-gray-600 text-sm">
+                Try adjusting your search query
+              </div>
+            </div>
+          )}
+        </div>
       </div>
+
+      {/* Post Button */}
       <Link
-        href={"/create-post"}
-        className="fixed bottom-6 right-8 border border-white rounded-xl py-4 px-10 text-3xl cursor-pointer hover:bg-gray-800 transition bg-black"
+        href="/create-post"
+        className="fixed bottom-8 right-8 bg-gradient-to-r from-blue-500 to-blue-800 hover:from-blue-600 hover:to-blue-950 text-white rounded-2xl px-6 sm:px-8 py-3 sm:py-4 transition-colors duration-300 flex items-center gap-3 font-semibold text-base sm:text-lg group z-50"
       >
-        Postuj
+        <Plus className="w-5 h-5 sm:w-6 sm:h-6 group-hover:rotate-90 transition-transform duration-300" />
+        <span className="hidden sm:inline">Post</span>
       </Link>
     </div>
   );
