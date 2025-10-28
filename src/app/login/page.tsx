@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import Link from "next/link";
 import { Mail, Lock, LogIn } from "lucide-react";
+import Image from "next/image";
 
 type LoginFormData = {
   email: string;
@@ -140,7 +141,7 @@ export default function LoginPage() {
 
         {/* Sign Up Link */}
         <p className="text-center text-gray-400 mt-6">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <Link
             href="/sign-up"
             className="text-blue-400 hover:text-blue-300 font-medium transition-colors"
