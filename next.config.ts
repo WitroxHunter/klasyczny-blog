@@ -1,14 +1,17 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
+const nextConfig: NextConfig & { eslint: { ignoreDuringBuilds: boolean } } = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-};
-
-module.exports = {
   images: {
-    remotePatterns: [new URL("https://thispersondoesnotexist.com/")],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "thispersondoesnotexist.com",
+      },
+    ],
   },
 };
+
 export default nextConfig;
