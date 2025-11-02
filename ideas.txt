@@ -1,5 +1,5 @@
 post searching on main site
-post tags
+post tags❌
 ✅ comments
 ✅ user profiles
 profile pictures hosting
@@ -10,3 +10,5 @@ profile pictures hosting
 ✅post preview fixed
 poprawic wyswietlanie h1-h6 w postach
 email verification
+
+NAPRAWIĆ DODAWANIE KOMENTARZY DIV!!!!!!!!!!

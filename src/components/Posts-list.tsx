@@ -49,7 +49,7 @@ function PostList({ posts: initialPosts, isOwnProfile }: PostListProps) {
       {posts.map((post) => (
         <div
           key={post.id}
-          className="flex justify-between items-center p-4 bg-zinc-800 hover:bg-zinc-700 rounded-xl transition"
+          className="flex justify-between items-center bg-gray-800/50 backdrop-blur-sm border border-gray-800 rounded-2xl p-4 hover:bg-gray-800 transition"
         >
           <Link href={`/post/${post.id}`} className="flex-1">
             <h3 className="text-white text-lg font-medium">{post.title}</h3>
@@ -62,7 +62,7 @@ function PostList({ posts: initialPosts, isOwnProfile }: PostListProps) {
             <button
               onClick={() => deletePost(post.id)}
               disabled={loadingIds.includes(post.id)}
-              className="text-red-500 hover:text-red-700 ml-4 transition"
+              className="text-red-500 hover:text-red-700 ml-4 transition cursor-pointer"
               title="Usuń post"
             >
               <Trash2 size={20} />

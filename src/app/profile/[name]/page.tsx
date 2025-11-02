@@ -3,8 +3,9 @@ import { notFound } from "next/navigation";
 import { getUserFromCookie } from "@/lib/getUserFromCookie";
 import UserProfile from "@/components/UserProfile";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default async function ProfilePage({ params }: any) {
+export default async function ProfilePage(props: { params: { name: string } }) {
+  const params = await props.params;
+
   const loggedInUser = await getUserFromCookie();
 
   const profileUser = await prisma.user.findUnique({
@@ -16,15 +17,12 @@ export default async function ProfilePage({ params }: any) {
       createdAt: true,
       posts: {
         orderBy: { createdAt: "desc" },
-        select: {
-          id: true,
-          title: true,
-          createdAt: true,
-        },
+        select: { id: true, title: true, createdAt: true },
       },
     },
   });
 
+  console.log("profileUser:", profileUser);
   if (!profileUser) return notFound();
 
   const isOwnProfile = loggedInUser?.id === profileUser.id;

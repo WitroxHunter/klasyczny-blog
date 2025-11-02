@@ -25,10 +25,10 @@ export default async function Page({
   if (!post) return notFound();
 
   return (
-    <div className="px-6 sm:px-20 py-20 overflow-y-scroll">
+    <div className="px-6  bg-gradient-to-br from-gray-950 to-gray-900 sm:px-20 py-20 overflow-y-hidden">
       <div className="max-w-3xl mx-auto space-y-8">
         {/* AUTHOR SECTION */}
-        <div className="bg-zinc-900 p-6 rounded-3xl flex items-center gap-4 shadow-md">
+        <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 p-6 rounded-3xl flex items-center gap-4 shadow-md">
           <Image
             src="/profile_placeholder.webp"
             alt={post.author.name || "Autor"}
@@ -49,7 +49,7 @@ export default async function Page({
         </div>
 
         {/* POST CONTENT */}
-        <div className="bg-zinc-900 p-8 rounded-3xl shadow-md">
+        <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 p-8 rounded-3xl shadow-md">
           <h1 className="text-3xl font-bold mb-4 text-white">{post.title}</h1>
           <div className="prose prose-invert text-white space-y-4">
             <MarkdownComponent content={post.content} />
@@ -57,7 +57,7 @@ export default async function Page({
         </div>
 
         {/* COMMENTS SECTION */}
-        <div className="bg-zinc-900 p-6 rounded-3xl shadow-md space-y-4">
+        <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 p-6 rounded-3xl shadow-md space-y-4">
           <Comments postId={post.id} />
         </div>
       </div>
