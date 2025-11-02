@@ -1,45 +1,11 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import Spinner from "./Spinner";
 import Image from "next/image";
+import Spinner from "./Spinner";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isloading, setisLoading] = useState(true);
-  const [userData, setUserData] = useState<null | {
-    id: string;
-    email: string;
-    name: string;
-    createdAt: string;
-  }>(null);
-
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const res = await fetch("/api/auth/me");
-        if (res.ok) {
-          const data = await res.json();
-          if (data.user) {
-            setIsLoggedIn(true);
-            setisLoading(false);
-            setUserData(data.user);
-          } else {
-            setIsLoggedIn(false);
-            setisLoading(false);
-          }
-        } else {
-          setIsLoggedIn(false);
-          setisLoading(false);
-        }
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      } catch (error) {
-        setIsLoggedIn(false);
-        setisLoading(false);
-      }
-    };
-    checkAuth();
-  }, []);
+  const { isLoggedIn, userData } = useAuth();
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-xl bg-gray-900/80 border-b border-gray-800/50 shadow-2xl">
@@ -54,24 +20,18 @@ export default function Header() {
           <div className="flex items-center gap-3">
             {!isLoggedIn ? (
               <>
-                {!isloading ? (
-                  <>
-                    <Link
-                      href="/sign-up"
-                      className="hidden sm:inline text-sm text-gray-300 hover:text-white transition-colors"
-                    >
-                      Sign up
-                    </Link>
-                    <Link
-                      href="/login"
-                      className="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-700 hover:to-blue-700 text-white rounded-lg transition-colors duration-300 px-4 py-1 text-sm font-medium shadow-lg"
-                    >
-                      Login
-                    </Link>
-                  </>
-                ) : (
-                  <Spinner size="w-6 h-6" />
-                )}
+                <Link
+                  href="/sign-up"
+                  className="hidden sm:inline text-sm text-gray-300 hover:text-white transition-colors"
+                >
+                  Sign up
+                </Link>
+                <Link
+                  href="/login"
+                  className="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-700 hover:to-blue-700 text-white rounded-lg transition-colors duration-300 px-4 py-1 text-sm font-medium shadow-lg"
+                >
+                  Login
+                </Link>
               </>
             ) : (
               <>

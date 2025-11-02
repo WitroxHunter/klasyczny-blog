@@ -1,17 +1,5 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig & { eslint: { ignoreDuringBuilds: boolean } } = {
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "thispersondoesnotexist.com",
-      },
-    ],
-  },
-};
+const nextConfig: NextConfig = {};
 
 export default nextConfig;

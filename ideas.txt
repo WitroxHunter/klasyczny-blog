@@ -1,4 +1,4 @@
-post searching on main site
+✅post searching on main site
 post tags❌
 ✅ comments
 ✅ user profiles
@@ -11,4 +11,4 @@ profile pictures hosting
 poprawic wyswietlanie h1-h6 w postach
 email verification
 
-NAPRAWIĆ DODAWANIE KOMENTARZY DIV!!!!!!!!!!
+✅NAPRAWIĆ DODAWANIE KOMENTARZY DIV!!!!!!!!!!

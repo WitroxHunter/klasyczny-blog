@@ -4,21 +4,22 @@ import { useState, useEffect } from "react";
 import Spinner from "@/components/Spinner";
 import { Search, Calendar, Plus } from "lucide-react";
 import MarkdownPostPreview from "@/components/Markdown-post-preview";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Home() {
+  const { isLoggedIn } = useAuth();
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loadingPosts, setLoadingPosts] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Twój typ Post
   type Post = {
     id: string;
     content: string;
     title: string;
     createdAt: string;
-    author: {
-      name: string;
-    };
+    author: { name: string };
   };
-
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [loadingPosts, setLoadingPosts] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
 
   const loadPosts = async () => {
     const res = await fetch("/api/posts");
@@ -154,11 +155,18 @@ export default function Home() {
 
       {/* Post Button */}
       <Link
-        href="/create-post"
-        className="fixed bottom-8 right-8 bg-gradient-to-r from-blue-500 to-blue-800 hover:from-blue-600 hover:to-blue-950 text-white rounded-2xl px-6 sm:px-8 py-3 sm:py-4 transition-colors duration-300 flex items-center gap-3 font-semibold text-base sm:text-lg group z-50"
+        href={isLoggedIn ? "/create-post" : "#"}
+        className={`fixed bottom-8 right-8 bg-gradient-to-r from-blue-500 to-blue-800 text-white rounded-2xl px-6 sm:px-8 py-3 sm:py-4 flex items-center gap-3 font-semibold text-base sm:text-lg group z-50 transition-colors duration-300
+          ${
+            !isLoggedIn
+              ? "opacity-50 pointer-events-none"
+              : "hover:from-blue-600 hover:to-blue-950"
+          }`}
       >
         <Plus className="w-5 h-5 sm:w-6 sm:h-6 group-hover:rotate-90 transition-transform duration-300" />
-        <span className="hidden sm:inline">Post</span>
+        <span className="hidden sm:inline">
+          {!isLoggedIn ? "Log in to post" : "Post"}
+        </span>
       </Link>
     </div>
   );
