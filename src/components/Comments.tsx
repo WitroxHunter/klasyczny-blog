@@ -17,14 +17,12 @@ export const Comments = ({ postId }: { postId: string }) => {
   const [loading, setLoading] = useState(false);
   const [authorId, setAuthorId] = useState<string | null>(null);
 
-  // Pobieranie komentarzy
   useEffect(() => {
     fetch(`/api/comments?postId=${postId}`)
       .then((res) => res.json())
       .then(setComments);
   }, [postId]);
 
-  // Pobranie ID autora
   const fetchAuthorId = async () => {
     try {
       const res = await fetch("/api/auth/me");
@@ -66,7 +64,6 @@ export const Comments = ({ postId }: { postId: string }) => {
 
   return (
     <div>
-      {/* Nagłówek sekcji */}
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-white text-xl font-semibold">Komentarze</h2>
         {!showForm && (
@@ -79,7 +76,6 @@ export const Comments = ({ postId }: { postId: string }) => {
         )}
       </div>
 
-      {/* Formularz dodawania komentarza */}
       {showForm && (
         <div>
           <textarea
@@ -106,7 +102,6 @@ export const Comments = ({ postId }: { postId: string }) => {
         </div>
       )}
 
-      {/* Lista komentarzy */}
       <ul className="space-y-2 mt-4">
         {comments.length === 0 && (
           <p className="text-gray-400 text-sm">Brak komentarzy</p>

@@ -12,7 +12,6 @@ export default function Home() {
   const [loadingPosts, setLoadingPosts] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Twój typ Post
   type Post = {
     id: string;
     content: string;
@@ -42,7 +41,7 @@ export default function Home() {
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-gray-950 to-gray-900 text-white">
       <div className="max-w-5xl mx-auto px-6 sm:px-8 py-8">
-        {/* Search Bar */}
+        {/* Search */}
         <div className="mb-8">
           <div className="relative">
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 z-1" />
@@ -57,7 +56,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Posts Grid */}
+        {/* Posts */}
         <div className="space-y-6">
           {loadingPosts ? (
             <div className="flex justify-center items-center py-20">
@@ -69,7 +68,6 @@ export default function Home() {
                 key={post.id}
                 className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl p-6 hover:border-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300 group"
               >
-                {/* Header with Title and Date */}
                 <div className="flex items-start justify-between gap-4 mb-4">
                   <Link href={`/post/${post.id}`} className="flex-1 min-w-0">
                     <h2 className="text-xl sm:text-2xl font-bold text-white group-hover:text-blue-400 transition-colors line-clamp-2">
@@ -120,7 +118,6 @@ export default function Home() {
                     <MarkdownPostPreview content={post.content} />
                   </div>
 
-                  {/* Read More Link */}
                   <div className="mt-4 pt-4 border-t border-gray-800">
                     <span className="text-blue-400 hover:text-blue-300 font-medium text-sm inline-flex items-center gap-2 group/btn">
                       Read full post

@@ -49,25 +49,22 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-gray-950 to-gray-900 text-white flex items-center justify-center px-4">
       <div className="w-full max-w-md">
-        {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl sm:text-4xl font-bold mb-2">Welcome Back</h1>
           <p className="text-gray-400">Log in to your account</p>
         </div>
 
-        {/* Form */}
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl p-6 sm:p-8 shadow-2xl space-y-6"
         >
-          {/* Error Message */}
           {komunikat && (
             <div className="bg-red-500/10 border border-red-500/50 text-red-400 px-4 py-3 rounded-xl text-sm">
               {komunikat}
             </div>
           )}
 
-          {/* Email Field */}
+          {/* Email */}
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">
               Email
@@ -94,7 +91,7 @@ export default function LoginPage() {
             )}
           </div>
 
-          {/* Password Field */}
+          {/* Password */}
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">
               Password
@@ -121,7 +118,6 @@ export default function LoginPage() {
             )}
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             disabled={isLoading}
@@ -138,7 +134,6 @@ export default function LoginPage() {
           </button>
         </form>
 
-        {/* Sign Up Link */}
         <p className="text-center text-gray-400 mt-6">
           Don&apos;t have an account?{" "}
           <Link

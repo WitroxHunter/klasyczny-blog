@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import Link from "next/link";
@@ -75,7 +74,6 @@ export default function SignupPage() {
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-gray-950 to-gray-900 text-white flex items-center justify-center px-4">
       <div className="w-full max-w-md">
-        {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl sm:text-4xl font-bold mb-2">
             Create Account
@@ -83,26 +81,23 @@ export default function SignupPage() {
           <p className="text-gray-400">Join our blogging community</p>
         </div>
 
-        {/* Form */}
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl p-6 sm:p-8 shadow-2xl space-y-6"
         >
-          {/* Success Message */}
           {success && (
             <div className="bg-green-500/10 border border-green-500/50 text-green-400 px-4 py-3 rounded-xl text-sm">
               Account created successfully! Redirecting to login...
             </div>
           )}
 
-          {/* Error Message */}
           {komunikat && (
             <div className="bg-red-500/10 border border-red-500/50 text-red-400 px-4 py-3 rounded-xl text-sm">
               {komunikat}
             </div>
           )}
 
-          {/* Name Field */}
+          {/* Name */}
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">
               Username
@@ -132,7 +127,7 @@ export default function SignupPage() {
             )}
           </div>
 
-          {/* Email Field */}
+          {/* Email */}
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">
               Email
@@ -159,7 +154,7 @@ export default function SignupPage() {
             )}
           </div>
 
-          {/* Password Field */}
+          {/* Password */}
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">
               Password
@@ -186,7 +181,6 @@ export default function SignupPage() {
             </p>
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             disabled={isLoading || success}
@@ -203,7 +197,6 @@ export default function SignupPage() {
           </button>
         </form>
 
-        {/* Login Link */}
         <p className="text-center text-gray-400 mt-6">
           Already have an account?{" "}
           <Link

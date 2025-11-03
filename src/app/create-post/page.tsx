@@ -74,13 +74,11 @@ export default function CreatePost() {
   const [undoStack, setUndoStack] = useState<string[]>([]);
   const [redoStack, setRedoStack] = useState<string[]>([]);
 
-  // ...
-
   const content = watch("content", "");
 
   const pushHistory = (newValue: string) => {
-    setUndoStack((prev) => [...prev, content]); // zapisujemy poprzedni stan
-    setRedoStack([]); // czyscimy redo
+    setUndoStack((prev) => [...prev, content]);
+    setRedoStack([]);
     setValue("content", newValue);
     setPreviewContent(newValue);
   };
@@ -419,7 +417,7 @@ export default function CreatePost() {
             </button>
           </div>
 
-          {/* RIGHT */}
+          {/* PRAWO */}
           <div className="w-1/2 p-4 overflow-y-scroll">
             <MarkdownComponent content={previewContent} />
           </div>

@@ -6,7 +6,7 @@ export async function POST(req: Request) {
   response.cookies.set("token", "", {
     httpOnly: true,
     path: "/",
-    expires: new Date(0), // wygasza ciasteczko
+    expires: new Date(0),
   });
 
   return response;

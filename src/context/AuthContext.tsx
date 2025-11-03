@@ -1,4 +1,3 @@
-// AuthContext.tsx
 "use client";
 
 import { createContext, useContext, useState, useEffect } from "react";

@@ -84,7 +84,6 @@ export default function UserProfile({
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-gray-950 to-gray-900">
       <div className="px-6 sm:px-20 py-10 max-w-4xl mx-auto space-y-8">
-        {/* PROFIL */}
         <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl p-6 flex items-center gap-6 shadow-md justify-between">
           <div className="flex items-center gap-6">
             <Image
@@ -192,7 +191,6 @@ export default function UserProfile({
           )}
         </div>
 
-        {/* POSTY */}
         <div className="space-y-4">
           <h2 className="text-xl text-white font-semibold">
             Posty użytkownika
@@ -201,7 +199,6 @@ export default function UserProfile({
           {profileUser.posts.length === 0 ? (
             <p className="text-gray-400">Brak postów.</p>
           ) : (
-            // Tworzymy lokalny stan postów, żeby móc usuwać bez odświeżania
             <PostList posts={profileUser.posts} isOwnProfile={isOwnProfile} />
           )}
         </div>

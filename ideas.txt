@@ -12,3 +12,6 @@ poprawic wyswietlanie h1-h6 w postach
 email verification
 
 ✅NAPRAWIĆ DODAWANIE KOMENTARZY DIV!!!!!!!!!!
+
+FOOTER
+NAPRAWIC SCROLL NA LOGIN I SIGNUP
